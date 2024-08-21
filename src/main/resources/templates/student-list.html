@@ -1,0 +1,74 @@
+
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Student List</title>
+</head>
+
+<body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container">
+        <h3 class="text-center">Student List</h3>
+        
+        <div class="d-flex justify-content-between mb-3">
+            <a th:href="@{/courses}" class="btn btn-primary btn-sm">View All Courses</a>
+            
+            <!-- Search Form -->
+            <form th:action="@{/students/search}" method="get" class="form-inline">
+                <input type="text" name="keyword" class="form-control mr-sm-2" placeholder="Search by name" aria-label="Search" required>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Student Name</th>
+                    <th>Passport</th>
+                    <th>Courses</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <!-- If no students found, display a message -->
+                <tr th:if="${students.size() == 0}">
+                    <td colspan="4" class="text-center">No students found</td>
+                </tr>
+                
+                <!-- Otherwise, display the matching student details -->
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.id}"></td>
+                    <td>
+                        <a th:href="@{/students/{id}(id=${student.id})}" th:text="${student.firstName + ' ' + student.lastName}"></a>
+                    </td>
+                    <td>
+                        <p th:if="${student.passport}" th:text="${student.passport.number}"></p>
+                        <a th:if="!${student.passport}" th:href="@{'/passports/add?id='+${student.id}}">Add Passport</a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/students/'+${student.id}+'/courses'}">
+                            <p th:if="${student.courses.isEmpty()}">Add Courses</p>
+                            <p th:if="!${student.courses.isEmpty()}">View Courses</p>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a th:href="@{/students/add}" class="btn btn-primary btn-sm mb-3">
+            Add new Student
+        </a>
+    </div>
+    
+</body>
+</html>

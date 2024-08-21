@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 100px; box-shadow: 2px 1px 2px #eee;">
+            <img src="/images/pec.png" alt="Somthing went Wrong" width="100px">
+            
+            <div th:if="${not #strings.equals(page, 'login')}" style="display: flex; gap: 20px;">
+                <div style="color: #6666; cursor: pointer;">Login</div>
+                <div style="color: #6666; cursor: pointer;">Sign Up</div>
+                <div th:if="${username != null}" style="color: #6666; cursor: pointer;">Username</div>
+            </div>
+            <div th:if="${#strings.equals(page, 'login')}" style="display: flex; gap: 20px;">
+                <div style="color: #6666; cursor: pointer;">Login</div>
+                <div style="color: #6666; cursor: pointer;">Sign Up</div>
+                <!--<div style="color: #6666; cursor: pointer;">Username</div>-->
+            </div>
+        </div>
+    </header>
+</body>
+</html>
